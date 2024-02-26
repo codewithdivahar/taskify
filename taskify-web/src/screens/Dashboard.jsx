@@ -34,7 +34,7 @@ const Dashboard = () => {
     <main>
       <Header
         displayName={loginSuccessData?.user?.displayName}
-        image={loginSuccessData?.user.image}
+        image={loginSuccessData?.user?.image}
         onLogoutClick={logout}
       />
 
