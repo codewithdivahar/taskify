@@ -2,6 +2,7 @@ const express = require("express");
 const passport = require("passport");
 const router = express.Router();
 const User = require("../models/User");
+const { REDIRECT_SUCCESS_URL, REDIRECT_URL } = require("../constant/urls");
 
 // @desc Auth with google
 // @route GET /auth/google
@@ -32,10 +33,9 @@ router.get(
     let redirectUrl = "";
     if (deviceType === "web") {
       user["userType"] = "admin";
-      redirectUrl = "http://localhost:3001/dashboard";
+      redirectUrl = REDIRECT_SUCCESS_URL;
     } else if (deviceType === "mobile") {
       user["userType"] = "user";
-      redirectUrl = "taskify://app/login";
     }
     try {
       if (req.user) {
@@ -44,9 +44,17 @@ router.get(
         if (!user) {
           user = await User.create(req.user);
         }
-        res.status(200).redirect(redirectUrl);
+        if (deviceType === "mobile") {
+          res.status(200).send("Success");
+        } else {
+          res.status(200).redirect(redirectUrl);
+        }
       } else {
-        res.status(401).redirect("http://localhost:3001/");
+        if (deviceType === "web") {
+          res.status(401).redirect(REDIRECT_URL);
+        } else {
+          res.status(401).send({ error: true, message: "User un authorized" });
+        }
       }
     } catch (err) {
       console.error("DB error --->", err);
@@ -58,11 +66,14 @@ router.get("/loginSuccess", (req, res) => {
   const { user } = req;
   if (user) {
     res.status(200).send({
+      error: false,
       message: "User Authorized",
       user: user,
     });
   } else {
-    res.status(401).send({ message: "User UnAuthorized", user: null });
+    res
+      .status(401)
+      .send({ error: true, message: "User UnAuthorized", user: null });
   }
 });
 
@@ -70,7 +81,7 @@ router.get("/logout", (req, res) => {
   const { deviceType } = req?.query;
   req.logout(() => {
     if (deviceType === "web") {
-      res.redirect("http://localhost:3001/");
+      res.redirect(REDIRECT_URL);
     } else if (deviceType === "mobile") {
       res.status(200).send({ success: true });
     }

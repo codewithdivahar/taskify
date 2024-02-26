@@ -5,8 +5,8 @@ const router = express.Router();
 
 const getNewTasks = (user) => {
   const taskObjArr = [];
-  const taskToGenerate = 3;
-  const locations = ["US", "CANADA", "PARIS"];
+  const taskToGenerate = 4;
+  const locations = ["UNITED STATES", "CANADA", "PARIS", "LONDON"];
   for (let i = 0; i < taskToGenerate; i++) {
     const location = locations[Math.floor(Math.random() * locations.length)];
     taskObjArr.push({
@@ -14,7 +14,7 @@ const getNewTasks = (user) => {
       taskId: "CODE",
 
       name:
-        "tsk_" +
+        "TSK_" +
         location.substring(0, 2) +
         "_" +
         Math.floor(Math.random() * 100000) +

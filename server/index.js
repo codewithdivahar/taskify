@@ -18,13 +18,7 @@ connectDB();
 
 const app = express();
 
-app.use(
-  cors({
-    origin: "http://localhost:3001",
-    methods: "GET,PUT,POST,DELETE",
-    credentials: true,
-  })
-);
+app.use(cors({ credentials: true, origin: true }));
 
 //Body Parser
 app.use(express.urlencoded({ extended: false }));

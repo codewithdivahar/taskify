@@ -1,4 +1,4 @@
-const CALLBACK_URL_HOST = require("../constant/urls");
+const { CALLBACK_URL_HOST } = require("../constant/urls");
 
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 
