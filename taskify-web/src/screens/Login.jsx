@@ -7,7 +7,7 @@ const Login = () => {
     localStorage.setItem("@IS_LOGGED_IN", "true");
   };
   return (
-    <div className="flex flex-col justify-center items-center bg-slate-600 h-screen">
+    <div className="flex flex-col justify-center items-center bg-slate-800 h-screen">
       <div className="flex flex-col w-full h-screen sm:w-80 sm:h-[600px] sm:shadow-lg sm:rounded-lg bg-slate-800 sm:bg-slate-50 p-8 justify-center items-center">
         <span className="mb-10 text-3xl font-semibold sm:text-black text-slate-100">
           Taskify
