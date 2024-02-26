@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 import { SERVER_URL } from "../constant/urls";
+import { useNavigate } from "react-router-dom";
 
 const urlMap = {
   loginSuccess: "/auth/loginSuccess",
@@ -23,6 +24,7 @@ const requestConfig = {
 };
 
 export const useApi = (name, defaultApiCall = false) => {
+  const navigate = useNavigate();
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(false);
   const callApi = () => {
@@ -33,6 +35,8 @@ export const useApi = (name, defaultApiCall = false) => {
         setLoading(false);
       })
       .catch((err) => {
+        localStorage.removeItem("@IS_LOGGED_IN");
+        navigate("/");
         setLoading(false);
       });
   };

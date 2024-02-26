@@ -4,6 +4,7 @@ import { SERVER_URL } from "../constant/urls";
 const Login = () => {
   const handleGoogleSignIn = () => {
     window.open(SERVER_URL + "/auth/google?deviceType=web", "_self");
+    localStorage.setItem("@IS_LOGGED_IN", "true");
   };
   return (
     <div className="flex flex-col justify-center items-center bg-slate-600 h-screen">

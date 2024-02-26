@@ -1,7 +1,5 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { SERVER_URL } from "../constant/urls";
-import Cookies from "js-cookie";
 import { useApi } from "../services/ApiServices";
 import Header from "../components/Header";
 import Table from "../components/Table";
@@ -12,7 +10,7 @@ const Dashboard = () => {
   const { data: allTasksData, callApi: callAllTaskAPI } = useApi("getAllTasks");
 
   const logout = () => {
-    Cookies.remove("connect.sid");
+    localStorage.removeItem("@IS_LOGGED_IN");
     window.open(SERVER_URL + "/auth/logout?deviceType=web", "_self");
   };
 
@@ -28,7 +26,6 @@ const Dashboard = () => {
     return (
       <div>
         <span>Loading....</span>
-        <button onClick={() => logout()}>Logout</button>;
       </div>
     );
   }
