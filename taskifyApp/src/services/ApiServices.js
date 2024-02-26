@@ -13,22 +13,26 @@ const requestConfig = {
     url: urlMap['logout'],
     method: 'get',
     baseURL: SERVER_URL,
+    withCredentials: true,
   }),
   loginSuccess: () => ({
     url: urlMap['loginSuccess'],
     method: 'get',
     baseURL: SERVER_URL,
+    withCredentials: true,
   }),
   getTasks: () => ({
     url: urlMap['tasks'],
     method: 'get',
     baseURL: SERVER_URL,
+    withCredentials: true,
   }),
   updateTask: body => ({
     url: urlMap['tasks'],
     method: 'post',
     baseURL: SERVER_URL,
     data: body,
+    withCredentials: true,
   }),
 };
 
