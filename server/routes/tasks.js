@@ -38,7 +38,8 @@ router.get("/tasks", async (req, res) => {
       newTasks["user"] = user._id;
       newTasks["data"] = getNewTasks(user);
       newTasks["deviceType"] = "mobile";
-      tasks = await Tasks.create(newTasks);
+      tasksFromDb = await Tasks.create(newTasks);
+      tasks = newTasks;
     }
     res.status(200).send({ tasks });
   } else {
