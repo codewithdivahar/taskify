@@ -29,8 +29,8 @@ const getNewTasks = (user) => {
 // @desc Tasks
 // @route GET /
 router.get("/tasks", async (req, res) => {
+  const { googleId } = req?.user;
   if (req.isAuthenticated()) {
-    const { googleId } = req?.user;
     let user = await User.findOne({ googleId });
     let tasks = await Tasks.findOne({ user: user._id });
     if (!tasks) {
