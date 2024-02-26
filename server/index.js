@@ -34,6 +34,7 @@ app.use(
     secret: "taskify-session",
     resave: false,
     saveUninitialized: false,
+    cookie: { httpOnly: false },
     store: new MongoStore({ mongoUrl: process.env.MONGO_URI }),
   })
 );

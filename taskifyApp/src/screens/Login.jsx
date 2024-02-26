@@ -63,15 +63,19 @@ const Login = ({navigation}) => {
           />
         </View>
       ) : (
-        <View className="flex w-full h-screen bg-slate-700 justify-center items-center">
+        <View className="flex w-full h-screen bg-slate-800 justify-center items-center">
           <Text className="mb-8 text-[36px] font-semibold text-slate-100">
             Taskify
           </Text>
-          <GoogleSignInButton
-            onPress={() =>
-              handleGoogleSignIn(SERVER_URL + '/auth/google?deviceType=mobile')
-            }
-          />
+          <View className="flex mx-7 flex-row">
+            <GoogleSignInButton
+              onPress={() =>
+                handleGoogleSignIn(
+                  SERVER_URL + '/auth/google?deviceType=mobile',
+                )
+              }
+            />
+          </View>
         </View>
       )}
     </SafeAreaView>

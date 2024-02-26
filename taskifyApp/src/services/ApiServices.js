@@ -1,4 +1,4 @@
-import axios, {AxiosRequestConfig} from 'axios';
+import axios from 'axios';
 import {useState} from 'react';
 import {SERVER_URL} from '../constants/urls';
 

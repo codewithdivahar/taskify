@@ -7,8 +7,10 @@ const Login = () => {
   };
   return (
     <div className="flex flex-col justify-center items-center bg-slate-600 h-screen">
-      <div className="flex flex-col w-80 h-[600px] shadow-lg rounded-lg bg-slate-50 p-8 justify-center items-center">
-        <span className="mb-10 text-3xl font-semibold">Taskify</span>
+      <div className="flex flex-col w-full h-screen sm:w-80 sm:h-[600px] sm:shadow-lg sm:rounded-lg bg-slate-800 sm:bg-slate-50 p-8 justify-center items-center">
+        <span className="mb-10 text-3xl font-semibold sm:text-black text-slate-100">
+          Taskify
+        </span>
         <button
           type="button"
           onClick={handleGoogleSignIn}
@@ -29,7 +31,7 @@ const Login = () => {
               d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z"
             ></path>
           </svg>
-          Sign up with Google<div></div>
+          Sign in with Google<div></div>
         </button>
       </div>
     </div>

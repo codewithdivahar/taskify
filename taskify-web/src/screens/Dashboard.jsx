@@ -1,44 +1,30 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { SERVER_URL } from "../constant/urls";
+import Cookies from "js-cookie";
+import { useApi } from "../services/ApiServices";
+import Header from "../components/Header";
+import Table from "../components/Table";
 
 const Dashboard = () => {
-  const [user, setUser] = useState({});
-  const [allTasks, setAllTasks] = useState([]);
-  const getUser = async () => {
-    try {
-      const response = await axios.get(SERVER_URL + "/auth/loginSuccess", {
-        withCredentials: true,
-      });
-      console.log("User ---> Details", response.data);
-      setUser(response?.data?.user);
-    } catch (err) {
-      console.error("API error", err);
-    }
-  };
-
-  const getAllTasks = async () => {
-    try {
-      const response = await axios.get(SERVER_URL + "/v1/allTasks", {
-        withCredentials: true,
-      });
-      console.log("User ---> tasks", response.data);
-      setAllTasks(response?.data?.tasks);
-    } catch (err) {
-      console.error("API error", err);
-    }
-  };
+  const { data: loginSuccessData, callApi: callLoginAPI } =
+    useApi("loginSuccess");
+  const { data: allTasksData, callApi: callAllTaskAPI } = useApi("getAllTasks");
 
   const logout = () => {
+    Cookies.remove("connect.sid");
     window.open(SERVER_URL + "/auth/logout?deviceType=web", "_self");
   };
 
   useEffect(() => {
-    getUser();
-    getAllTasks();
+    callLoginAPI();
+    callAllTaskAPI();
   }, []);
 
-  if (Object.keys(user).length === 0 && getAllTasks.length === 0) {
+  if (
+    Object.keys(loginSuccessData).length === 0 &&
+    Object.keys(allTasksData).length === 0
+  ) {
     return (
       <div>
         <span>Loading....</span>
@@ -49,81 +35,32 @@ const Dashboard = () => {
 
   return (
     <main>
-      <header>
-        <nav className="flex w-full h-12 border-b-2 shadow-sm items-center px-8 justify-between bg-slate-800">
-          <span className="text-xl font-bold text-cyan-600">Taskify</span>
-          <div className="flex justify-center items-center gap-5">
-            <span className="font-semibold invert">{user?.displayName}</span>
-            <button className="invert" onClick={() => logout()}>
-              Logout
-            </button>
-            <img
-              src={user.image}
-              alt="user"
-              className="w-9 h-9 rounded-full object-contain"
-            />
-          </div>
-        </nav>
-      </header>
+      <Header
+        displayName={loginSuccessData?.user?.displayName}
+        image={loginSuccessData?.user.image}
+        onLogoutClick={logout}
+      />
+
       <section>
         <div className="flex justify-between items-center p-8">
-          <span className="font-semibold text-2xl">OverAll Tasks</span>
-          <button onClick={() => getAllTasks()}>Refresh</button>
+          <span className="font-semibold text-xl sm:text-2xl">
+            OverAll Tasks
+          </span>
+          <button onClick={callAllTaskAPI}>Refresh</button>
         </div>
-        {allTasks.length === 0 ? (
+        {Object.keys(allTasksData).length > 0 &&
+        allTasksData?.tasks?.length === 0 ? (
           <div className="flex w-full h-full justify-center items-center">
-            <span className="text-xl text-slate-800">
+            <span className="text-lg sm:text-xl text-slate-800">
               No Active Tasks for the users
             </span>
           </div>
         ) : (
-          <table className="w-full border-collapse">
-            <tr className="h-12 border-b-2 bg-slate-800">
-              <th className="invert">User</th>
-              <th className="invert">Location</th>
-              <th className="invert">OverAll Task</th>
-              <th className="invert">Completed Task</th>
-            </tr>
-            {allTasks.map((item) => {
-              let overAllTask = item?.data?.length;
-              let completedTask = 0;
-              item?.data.map((task) => {
-                if (task.status === "COMPLETED") {
-                  completedTask++;
-                }
-              });
-              return item?.data?.map((task, index) => {
-                return (
-                  <tr className="h-12 border-b-2">
-                    {index === 0 && (
-                      <td className="font-bold" align="center" rowSpan={3}>
-                        {task.displayName}
-                      </td>
-                    )}
-                    <td align="center">{task.location}</td>
-                    {index === 0 && (
-                      <td
-                        className="font-semibold text-lg"
-                        align="center"
-                        rowSpan={3}
-                      >
-                        {overAllTask}
-                      </td>
-                    )}
-                    {index === 0 && (
-                      <td
-                        className="font-semibold text-lg"
-                        align="center"
-                        rowSpan={3}
-                      >
-                        {completedTask}
-                      </td>
-                    )}
-                  </tr>
-                );
-              });
-            })}
-          </table>
+          <>
+            {Object.keys(allTasksData).length > 0 && (
+              <Table allTasks={allTasksData?.tasks} />
+            )}
+          </>
         )}
       </section>
     </main>
