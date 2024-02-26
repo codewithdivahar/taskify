@@ -15,5 +15,3 @@ const GoogleSignInButton = ({onPress}) => {
 };
 
 export default GoogleSignInButton;
-
-const styles = StyleSheet.create({});
